@@ -1,4 +1,10 @@
-export const MAP_CONFIG = {
+interface MapConfig {
+  initialScale: number;
+  minScale: number;
+  maxScale: number;
+}
+
+export const MAP_CONFIG: MapConfig = {
   initialScale: 5,
   minScale: 1,
   maxScale: 6,

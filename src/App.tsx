@@ -1,14 +1,17 @@
 import Map from './components/Map';
 import { TransformWrapper, TransformComponent, ReactZoomPanPinchRef } from 'react-zoom-pan-pinch';
 import { MAP_CONFIG } from './utils/map';
-import { useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
+
+import { randomizePlayerStartingPosition } from './utils/player';
 
 // TODO: create a global context for application
-// TODO: zoom to current player position on init
+// TODO: improve zooming for player's initial position
 
 const App = () => {
   const transformComponentRef = useRef<ReactZoomPanPinchRef | null>(null);
-  const [currentScale, setCurrentScale] = useState<number>(MAP_CONFIG.initialScale);
+
+  const startingPosition = randomizePlayerStartingPosition();
 
   const zoomToCurrentPosition = (): void => {
     if (!transformComponentRef.current) return;
@@ -17,13 +20,16 @@ const App = () => {
     const { scale } = transformComponentRef.current.instance.transformState;
 
     zoomToElement('player', scale, 300);
-    setCurrentScale(scale);
   };
+
+  useEffect(() => {
+    setTimeout(() => zoomToCurrentPosition(), 50);
+  }, []);
 
   return (
     <TransformWrapper {...MAP_CONFIG} ref={transformComponentRef}>
       <TransformComponent>
-        <Map onPlayerMove={zoomToCurrentPosition} scale={currentScale} />
+        <Map onPlayerMove={zoomToCurrentPosition} startingPosition={startingPosition} />
       </TransformComponent>
     </TransformWrapper>
   );

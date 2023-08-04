@@ -1,37 +1,41 @@
 import styled from 'styled-components';
 import ship from '../assets/ship.png';
 import { useCallback, useEffect, useState } from 'react';
-import { changePlayerPosition, PLAYER_SIZE } from '../utils/player';
+import { changePlayerPosition } from '../utils/player';
 import { PlayerPosition } from '../types';
-import { getMapBoundaries } from '../utils/map';
+import { MAP_ASPECT_RATIO, PLAYER_SIZE } from '../constants';
 
 const PlayerElement = styled.div<PlayerPosition>`
   position: absolute;
-  left: ${props => props.x}px;
-  top: ${props => props.y}px;
+  left: ${props => props.x}%;
+  top: ${props => props.y}%;
   z-index: 100;
   transition: all 0.3s;
+  width: ${PLAYER_SIZE * MAP_ASPECT_RATIO}%;
+  height: ${PLAYER_SIZE}%;
 
   img {
-    width: ${PLAYER_SIZE}px;
-    height: ${PLAYER_SIZE}px;
+    object-fit: contain;
   }
 `;
 
-// TODO: set random starting position on init
-
-const Player = ({ onPlayerMove, scale }: { onPlayerMove: () => void; scale: number }) => {
-  const [playerPosition, setPlayerPosition] = useState<PlayerPosition>({ x: 100, y: 100 });
+const Player = ({
+  onPlayerMove,
+  startingPosition,
+}: {
+  onPlayerMove: () => void;
+  startingPosition: { x: number; y: number };
+}) => {
+  const [playerPosition, setPlayerPosition] = useState<PlayerPosition>(startingPosition);
 
   const movePlayerHandler = useCallback(
     (e: KeyboardEvent): void => {
-      const mapBoundaries = getMapBoundaries(scale);
-      const newPosition = changePlayerPosition(e, playerPosition, mapBoundaries);
+      const newPosition = changePlayerPosition(e, playerPosition);
 
       setPlayerPosition(newPosition);
       onPlayerMove();
     },
-    [playerPosition, onPlayerMove, scale]
+    [playerPosition, onPlayerMove]
   );
 
   useEffect(() => {
@@ -44,7 +48,7 @@ const Player = ({ onPlayerMove, scale }: { onPlayerMove: () => void; scale: numb
 
   return (
     <PlayerElement id='player' x={playerPosition.x} y={playerPosition.y}>
-      <img src={ship} alt='Ship' width={48} height={48} />
+      <img src={ship} alt='Ship' width='100%' height='100%' />
     </PlayerElement>
   );
 };
