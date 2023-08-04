@@ -1,12 +1,26 @@
-import worldMap from './assets/world-map.jpeg';
-import Player from './components/Player';
+import Map from './components/Map';
+import { TransformWrapper, TransformComponent, ReactZoomPanPinchRef } from 'react-zoom-pan-pinch';
+import { MAP_CONFIG } from './utils/map';
+import { useRef } from 'react';
 
 const App = () => {
+  const transformComponentRef = useRef<ReactZoomPanPinchRef | null>(null);
+
+  const zoomToCurrentPosition = () => {
+    if (!transformComponentRef.current) return;
+
+    const { zoomToElement } = transformComponentRef.current;
+    const { scale } = transformComponentRef.current.instance.transformState;
+
+    zoomToElement('player', scale, 300);
+  };
+
   return (
-    <div style={{ position: 'relative' }}>
-      <Player />
-      <img src={worldMap} alt='World Map' width={4096} height={2800} style={{ maxWidth: 'unset' }} />
-    </div>
+    <TransformWrapper {...MAP_CONFIG} ref={transformComponentRef}>
+      <TransformComponent>
+        <Map onPlayerMove={zoomToCurrentPosition} />
+      </TransformComponent>
+    </TransformWrapper>
   );
 };
 

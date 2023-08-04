@@ -8,22 +8,25 @@ const PlayerElement = styled.div<PlayerPosition>`
   position: absolute;
   left: ${props => props.x}px;
   top: ${props => props.y}px;
+  z-index: 100;
+  transition: all 0.3s;
 `;
 
 const PlayerImage = styled.img`
-  width: 128px;
-  height: 128px;
+  width: 48px;
+  height: 48px;
 `;
 
-const Player = () => {
-  const [playerPosition, setPlayerPosition] = useState<PlayerPosition>({ x: 100, y: 100 });
+const Player = ({ onPlayerMove }: { onPlayerMove: () => void }) => {
+  const [playerPosition, setPlayerPosition] = useState<PlayerPosition>({ x: 96, y: 96 });
 
   const movePlayerHandler = useCallback(
     (e: KeyboardEvent): void => {
       const newPosition = changePlayerPosition(e, playerPosition);
       setPlayerPosition(newPosition);
+      onPlayerMove();
     },
-    [playerPosition]
+    [playerPosition, onPlayerMove]
   );
 
   useEffect(() => {
@@ -35,8 +38,8 @@ const Player = () => {
   }, [movePlayerHandler]);
 
   return (
-    <PlayerElement x={playerPosition.x} y={playerPosition.y}>
-      <PlayerImage src={ship} alt='Ship' />
+    <PlayerElement id='player' x={playerPosition.x} y={playerPosition.y}>
+      <PlayerImage src={ship} alt='Ship' width={48} height={48} />
     </PlayerElement>
   );
 };
