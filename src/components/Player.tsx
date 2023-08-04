@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import ship from '../assets/ship.png';
 import { useCallback, useEffect, useState } from 'react';
-import { changePlayerPosition } from '../utils/player';
+import { changePlayerPosition, PLAYER_SIZE } from '../utils/player';
 import { PlayerPosition } from '../types';
+import { getMapBoundaries } from '../utils/map';
 
 const PlayerElement = styled.div<PlayerPosition>`
   position: absolute;
@@ -10,23 +11,27 @@ const PlayerElement = styled.div<PlayerPosition>`
   top: ${props => props.y}px;
   z-index: 100;
   transition: all 0.3s;
+
+  img {
+    width: ${PLAYER_SIZE}px;
+    height: ${PLAYER_SIZE}px;
+  }
 `;
 
-const PlayerImage = styled.img`
-  width: 48px;
-  height: 48px;
-`;
+// TODO: set random starting position on init
 
-const Player = ({ onPlayerMove }: { onPlayerMove: () => void }) => {
-  const [playerPosition, setPlayerPosition] = useState<PlayerPosition>({ x: 96, y: 96 });
+const Player = ({ onPlayerMove, scale }: { onPlayerMove: () => void; scale: number }) => {
+  const [playerPosition, setPlayerPosition] = useState<PlayerPosition>({ x: 100, y: 100 });
 
   const movePlayerHandler = useCallback(
     (e: KeyboardEvent): void => {
-      const newPosition = changePlayerPosition(e, playerPosition);
+      const mapBoundaries = getMapBoundaries(scale);
+      const newPosition = changePlayerPosition(e, playerPosition, mapBoundaries);
+
       setPlayerPosition(newPosition);
       onPlayerMove();
     },
-    [playerPosition, onPlayerMove]
+    [playerPosition, onPlayerMove, scale]
   );
 
   useEffect(() => {
@@ -39,7 +44,7 @@ const Player = ({ onPlayerMove }: { onPlayerMove: () => void }) => {
 
   return (
     <PlayerElement id='player' x={playerPosition.x} y={playerPosition.y}>
-      <PlayerImage src={ship} alt='Ship' width={48} height={48} />
+      <img src={ship} alt='Ship' width={48} height={48} />
     </PlayerElement>
   );
 };
