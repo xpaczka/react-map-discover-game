@@ -1,3 +1,5 @@
+import { ReactZoomPanPinchRef } from 'react-zoom-pan-pinch';
+
 interface MapConfig {
   initialScale: number;
   minScale: number;
@@ -17,4 +19,13 @@ export const getMapBoundaries: GetMapBoundaries = scale => {
   const { width, height } = mapElement.getBoundingClientRect();
 
   return { width: width / scale, height: height / scale };
+};
+
+export const zoomToCurrentPosition = (transformComponentRef: ReactZoomPanPinchRef | null) => {
+  if (!transformComponentRef) return;
+
+  const { zoomToElement } = transformComponentRef;
+  const { scale } = transformComponentRef.instance.transformState;
+
+  zoomToElement('player', scale, 300);
 };

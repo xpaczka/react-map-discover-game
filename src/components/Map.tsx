@@ -14,16 +14,10 @@ const MapImage = styled.img`
   object-fit: contain;
 `;
 
-const Map = ({
-  onPlayerMove,
-  startingPosition,
-}: {
-  onPlayerMove: () => void;
-  startingPosition: { x: number; y: number };
-}) => {
+const Map = () => {
   return (
     <MapElement id='map'>
-      <Player onPlayerMove={onPlayerMove} startingPosition={startingPosition} />
+      <Player />
       <MapImage src={worldMap} alt='World Map' width='100%' height='100%' />
     </MapElement>
   );

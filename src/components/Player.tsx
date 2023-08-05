@@ -1,9 +1,11 @@
 import styled from 'styled-components';
 import ship from '../assets/ship.png';
-import { useCallback, useEffect, useState } from 'react';
-import { changePlayerPosition } from '../utils/player';
+import { useCallback, useEffect } from 'react';
 import { PlayerPosition } from '../types';
 import { MAP_ASPECT_RATIO, PLAYER_SIZE } from '../constants';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../store';
+import { movePlayer } from '../store/gameSlice';
 
 const PlayerElement = styled.div<PlayerPosition>`
   position: absolute;
@@ -19,24 +21,11 @@ const PlayerElement = styled.div<PlayerPosition>`
   }
 `;
 
-const Player = ({
-  onPlayerMove,
-  startingPosition,
-}: {
-  onPlayerMove: () => void;
-  startingPosition: { x: number; y: number };
-}) => {
-  const [playerPosition, setPlayerPosition] = useState<PlayerPosition>(startingPosition);
+const Player = () => {
+  const playerPosition = useSelector((state: RootState) => state.game.playerPosition);
+  const dispatch = useDispatch();
 
-  const movePlayerHandler = useCallback(
-    (e: KeyboardEvent): void => {
-      const newPosition = changePlayerPosition(e, playerPosition);
-
-      setPlayerPosition(newPosition);
-      onPlayerMove();
-    },
-    [playerPosition, onPlayerMove]
-  );
+  const movePlayerHandler = useCallback((e: KeyboardEvent) => dispatch(movePlayer({ key: e.key })), [dispatch]);
 
   useEffect(() => {
     document.addEventListener('keydown', movePlayerHandler);

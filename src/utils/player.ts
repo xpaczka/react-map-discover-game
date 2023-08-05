@@ -1,19 +1,19 @@
 import { PlayerPosition } from '../types';
 import { MAP_ASPECT_RATIO, PLAYER_SIZE, PLAYER_POSITION_CHANGE_VALUE } from '../constants';
 
-type ChangePlayerPosition = (e: KeyboardEvent, initialPosition: PlayerPosition) => PlayerPosition;
+type ChangePlayerPosition = (key: string, initialPosition: PlayerPosition) => PlayerPosition;
 
 type RandomizePlayerStartingPosition = () => { x: number; y: number };
 
 export const randomizePlayerStartingPosition: RandomizePlayerStartingPosition = () => {
-  const x = Math.floor(Math.random() * (100 - PLAYER_SIZE + 1) + PLAYER_SIZE);
-  const y = Math.floor(Math.random() * (100 - PLAYER_SIZE + 1) + PLAYER_SIZE);
+  const x = Math.floor(Math.random() * (100 - PLAYER_SIZE * MAP_ASPECT_RATIO));
+  const y = Math.floor(Math.random() * (100 - PLAYER_SIZE));
 
   return { x, y };
 };
 
-export const changePlayerPosition: ChangePlayerPosition = (e, initialPosition) => {
-  switch (e.key) {
+export const changePlayerPosition: ChangePlayerPosition = (key, initialPosition) => {
+  switch (key) {
     case 'ArrowUp':
       return {
         ...initialPosition,
