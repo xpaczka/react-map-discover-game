@@ -8,12 +8,18 @@ import { zoomToCurrentPosition } from '../utils/map';
 interface GameState {
   playerPosition: PlayerPosition;
   transformComponentRef: ReactZoomPanPinchRef | null;
+  visitedPoints: PlayerPosition[];
 }
 
+const initialPlayerPosition = randomizePlayerStartingPosition();
+
 const initialState: GameState = {
-  playerPosition: randomizePlayerStartingPosition(),
+  playerPosition: initialPlayerPosition,
   transformComponentRef: null,
+  visitedPoints: [initialPlayerPosition],
 };
+
+// TODO: prevent creating duplicate visited points
 
 export const gameSlice = createSlice({
   name: 'game',
@@ -26,8 +32,9 @@ export const gameSlice = createSlice({
         zoomToCurrentPosition(state.transformComponentRef as ReactZoomPanPinchRef);
       }
 
-      return { ...state, playerPosition: newPosition };
+      return { ...state, playerPosition: newPosition, visitedPoints: [...state.visitedPoints, newPosition] };
     },
+
     setTransformComponentRef: (state, action: PayloadAction<{ ref: ReactZoomPanPinchRef | null }>) => {
       return { ...state, transformComponentRef: action.payload.ref };
     },
