@@ -17,10 +17,7 @@ export const changePlayerPosition: ChangePlayerPosition = (key, initialPosition)
     case 'ArrowUp':
       return {
         ...initialPosition,
-        y:
-          initialPosition.y >= PLAYER_POSITION_CHANGE_VALUE
-            ? initialPosition.y - PLAYER_POSITION_CHANGE_VALUE * MAP_ASPECT_RATIO
-            : 0,
+        y: initialPosition.y >= PLAYER_POSITION_CHANGE_VALUE ? initialPosition.y - PLAYER_POSITION_CHANGE_VALUE : 0,
       };
 
     case 'ArrowDown':

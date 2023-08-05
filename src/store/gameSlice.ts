@@ -4,6 +4,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { PlayerPosition } from '../types';
 import { ReactZoomPanPinchRef } from 'react-zoom-pan-pinch';
 import { zoomToCurrentPosition } from '../utils/map';
+import { updateVisitedPoints } from '../utils/tile';
 
 interface GameState {
   playerPosition: PlayerPosition;
@@ -19,20 +20,19 @@ const initialState: GameState = {
   visitedPoints: [initialPlayerPosition],
 };
 
-// TODO: prevent creating duplicate visited points
-
 export const gameSlice = createSlice({
   name: 'game',
   initialState,
   reducers: {
     movePlayer: (state, action: PayloadAction<{ key: string }>) => {
       const newPosition = changePlayerPosition(action.payload.key, state.playerPosition);
+      const visitedPoints = updateVisitedPoints(state.visitedPoints, newPosition);
 
       if (state.transformComponentRef) {
         zoomToCurrentPosition(state.transformComponentRef as ReactZoomPanPinchRef);
       }
 
-      return { ...state, playerPosition: newPosition, visitedPoints: [...state.visitedPoints, newPosition] };
+      return { ...state, playerPosition: newPosition, visitedPoints };
     },
 
     setTransformComponentRef: (state, action: PayloadAction<{ ref: ReactZoomPanPinchRef | null }>) => {
