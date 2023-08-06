@@ -1,28 +1,10 @@
 import worldMap from '../assets/world-map.jpeg';
 import Player from './Player';
-import styled from 'styled-components';
+import { MapElement, MapImage, MapCover } from './styled-components/Map';
 
 import { useSelector } from 'react-redux';
 import { RootState } from '../store';
 import Tile from './Tile';
-
-const MapElement = styled.div`
-  width: 100%;
-  height: 100%;
-  position: relative;
-`;
-
-const MapImage = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  clip-path: url(#map-clip-path);
-`;
-
-const MapCover = styled.svg`
-  position: absolute;
-  inset: 0;
-`;
 
 const Map = () => {
   const visitedPoints = useSelector((state: RootState) => state.game.visitedPoints);
