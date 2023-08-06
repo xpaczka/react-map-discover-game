@@ -9,8 +9,6 @@ import { movePlayer } from '../store/gameSlice';
 
 const PlayerElement = styled.div<PlayerPosition>`
   position: absolute;
-  left: ${props => props.x}%;
-  top: ${props => props.y}%;
   z-index: 100;
   transition: all 0.3s;
   width: ${PLAYER_SIZE * MAP_ASPECT_RATIO}%;
@@ -36,7 +34,12 @@ const Player = () => {
   }, [movePlayerHandler]);
 
   return (
-    <PlayerElement id='player' x={playerPosition.x} y={playerPosition.y}>
+    <PlayerElement
+      id='player'
+      x={playerPosition.x}
+      y={playerPosition.y}
+      style={{ left: `${playerPosition.x}%`, top: `${playerPosition.y}%` }}
+    >
       <img src={ship} alt='Ship' width='100%' height='100%' />
     </PlayerElement>
   );

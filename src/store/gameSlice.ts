@@ -4,12 +4,13 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { PlayerPosition } from '../types';
 import { ReactZoomPanPinchRef } from 'react-zoom-pan-pinch';
 import { zoomToCurrentPosition } from '../utils/map';
-import { updateVisitedPoints } from '../utils/tile';
+import { calculateTileCoverageArea, updateVisitedPoints } from '../utils/tile';
 
 interface GameState {
   playerPosition: PlayerPosition;
   transformComponentRef: ReactZoomPanPinchRef | null;
   visitedPoints: PlayerPosition[];
+  progress: number;
 }
 
 const initialPlayerPosition = randomizePlayerStartingPosition();
@@ -18,6 +19,7 @@ const initialState: GameState = {
   playerPosition: initialPlayerPosition,
   transformComponentRef: null,
   visitedPoints: [initialPlayerPosition],
+  progress: 0,
 };
 
 export const gameSlice = createSlice({
@@ -27,12 +29,13 @@ export const gameSlice = createSlice({
     movePlayer: (state, action: PayloadAction<{ key: string }>) => {
       const newPosition = changePlayerPosition(action.payload.key, state.playerPosition);
       const visitedPoints = updateVisitedPoints(state.visitedPoints, newPosition);
+      const progress = calculateTileCoverageArea();
 
       if (state.transformComponentRef) {
         zoomToCurrentPosition(state.transformComponentRef as ReactZoomPanPinchRef);
       }
 
-      return { ...state, playerPosition: newPosition, visitedPoints };
+      return { ...state, playerPosition: newPosition, visitedPoints, progress };
     },
 
     setTransformComponentRef: (state, action: PayloadAction<{ ref: ReactZoomPanPinchRef | null }>) => {

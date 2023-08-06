@@ -4,8 +4,7 @@ import { MAP_CONFIG, zoomToCurrentPosition } from './utils/map';
 import { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { setTransformComponentRef } from './store/gameSlice';
-
-// TODO: improve zooming for player's initial position
+import ProgressBar from './components/ProgressBar';
 
 const App = () => {
   const transformComponentRef = useRef<ReactZoomPanPinchRef | null>(null);
@@ -22,11 +21,14 @@ const App = () => {
   }, [dispatch]);
 
   return (
-    <TransformWrapper {...MAP_CONFIG} ref={transformComponentRef}>
-      <TransformComponent>
-        <Map />
-      </TransformComponent>
-    </TransformWrapper>
+    <>
+      <ProgressBar />
+      <TransformWrapper {...MAP_CONFIG} ref={transformComponentRef}>
+        <TransformComponent>
+          <Map />
+        </TransformComponent>
+      </TransformWrapper>
+    </>
   );
 };
 
