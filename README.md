@@ -18,7 +18,7 @@ Application was created using React and Typescript with help of additional npm p
 
 ## Gameplay
 
-![Game Start Screen](https://raw.githubusercontent.com/akena-engineering/michal-paczynski/main/public/game-start-screen.png?raw=true)
+![Game Start Screen](https://github.com/akena-engineering/michal-paczynski/blob/main/public/game-start-screen.png?raw=true)
 
 Player moves by using arrows on keyboard. Player can also zoom in, zoom out and pan to sides, to see how much of the map has been already discovered.
 
