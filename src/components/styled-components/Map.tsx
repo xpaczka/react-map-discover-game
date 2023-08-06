@@ -12,8 +12,3 @@ export const MapImage = styled.img`
   object-fit: contain;
   clip-path: url(#map-clip-path);
 `;
-
-export const MapCover = styled.svg`
-  position: absolute;
-  inset: 0;
-`;
