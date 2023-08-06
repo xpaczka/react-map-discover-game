@@ -1,27 +1,47 @@
-# React + TypeScript + Vite
+# Grand Line Adventure
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Embark on an epic Grand Line Adventure, where thrilling quests, mysterious treasures, and unforgettable encounters await your journey ahead!
 
-Currently, two official plugins are available:
+Grand Line Adventure is map discovering game inspired by well-known 'One Piece' anime and manga series. The goal of the game is to sail throught the sea to discover every part of the world.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+[One Piece Wikipedia Page](https://en.wikipedia.org/wiki/One_Piece)
 
-## Expanding the ESLint configuration
+Application was created using React and Typescript with help of additional npm packages.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Tools Used
 
-- Configure the top-level `parserOptions` property like this:
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
+![Typescript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+
+![Styled Components](https://img.shields.io/badge/styled--components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white)
+
+## Gameplay
+
+![Game Start Screen](https://raw.githubusercontent.com/akena-engineering/michal-paczynski/main/public/game-start-screen.png?raw=true)
+
+Player moves by using arrows on keyboard. Player can also zoom in, zoom out and pan to sides, to see how much of the map has been already discovered.
+
+![World Map](https://github.com/akena-engineering/michal-paczynski/blob/main/src/assets/world-map.jpeg?raw=true)
+
+## Run Locally
+
+Clone the project
+
+```bash
+  git clone https://github.com/akena-engineering/michal-paczynski.git
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+Install dependencies
+
+```bash
+  npm install
+```
+
+Start the local developement server
+
+```bash
+  npm run dev
+```
+
+Then go to `localhost:3000` in your browser.

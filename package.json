@@ -1,8 +1,9 @@
 {
-  "name": "map-discoverer",
+  "name": "grand-line-adventure",
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "author": "Michał Paczyński",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
