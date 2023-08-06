@@ -20,6 +20,7 @@ export const ProgressBarElement = styled.div`
   span {
     z-index: 1000;
     position: relative;
+    font-size: 12px;
   }
 `;
 
@@ -28,7 +29,7 @@ export const Progress = styled.div`
   left: 0;
   top: 0;
   bottom: 0;
-  background: green;
+  background: #801e1e;
   height: 100%;
   overflow: hidden;
   font-size: 14px;

@@ -1,5 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
 body {
   background: #000;
+  font-family: 'Poppins', sans-serif;
 }
 
 #root {
@@ -10,4 +13,20 @@ body {
 #root > .react-transform-wrapper {
   height: 100%;
   width: 100%;
+}
+
+#modal {
+  position: fixed;
+  inset: 0;
+  height: 100vh;
+  width: 100vw;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  padding-inline: 20px;
+  pointer-events: none;
+}
+
+#modal > * {
+  pointer-events: all;
 }

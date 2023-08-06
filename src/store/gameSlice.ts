@@ -7,6 +7,7 @@ import { zoomToCurrentPosition } from '../utils/map';
 import { calculateTileCoverageArea, updateVisitedPoints } from '../utils/tile';
 
 interface GameState {
+  gameRunning: boolean;
   playerPosition: PlayerPosition;
   transformComponentRef: ReactZoomPanPinchRef | null;
   visitedPoints: PlayerPosition[];
@@ -16,6 +17,7 @@ interface GameState {
 const initialPlayerPosition = randomizePlayerStartingPosition();
 
 const initialState: GameState = {
+  gameRunning: false,
   playerPosition: initialPlayerPosition,
   transformComponentRef: null,
   visitedPoints: [initialPlayerPosition],
@@ -26,7 +28,12 @@ export const gameSlice = createSlice({
   name: 'game',
   initialState,
   reducers: {
+    startGame: state => {
+      return { ...state, gameRunning: true };
+    },
     movePlayer: (state, action: PayloadAction<{ key: string }>) => {
+      if (!state.gameRunning) return state;
+
       const newPosition = changePlayerPosition(action.payload.key, state.playerPosition);
       const visitedPoints = updateVisitedPoints(state.visitedPoints, newPosition);
       const progress = calculateTileCoverageArea();
@@ -37,13 +44,12 @@ export const gameSlice = createSlice({
 
       return { ...state, playerPosition: newPosition, visitedPoints, progress };
     },
-
     setTransformComponentRef: (state, action: PayloadAction<{ ref: ReactZoomPanPinchRef | null }>) => {
       return { ...state, transformComponentRef: action.payload.ref };
     },
   },
 });
 
-export const { movePlayer, setTransformComponentRef } = gameSlice.actions;
+export const { startGame, movePlayer, setTransformComponentRef } = gameSlice.actions;
 
 export default gameSlice.reducer;
